@@ -5,7 +5,7 @@ const path = require('path');
 
 const app = express();
 
-// Set EJS as the template engine
+// Set EJS as the template engine it works great
 app.set('view engine', 'ejs');
 app.use(express.static('public')); // For serving static files
 
