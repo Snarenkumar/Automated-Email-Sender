@@ -7,24 +7,43 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
     <div class="container mt-5">
         <div class="card shadow-lg">
-            <div class="card-header bg-primary text-white">
-                <h1 class="card-title text-center">Upload Excel File</h1>
-            </div>
             <div class="card-body">
+                <h1 class="text-center mb-4">Upload Excel File</h1>
+                <p class="text-center text-muted mb-4">
+                    Make sure the file format meets the requirements. It must be <strong>.xls</strong> or <strong>.xlsx</strong>.
+                </p>
+
                 <form id="upload-form" action="/upload" method="POST" enctype="multipart/form-data">
                     <div id="drop-area" class="p-5 border-dashed text-center">
-                        <p class="mb-0">Drag & Drop Excel File Here or <span class="text-primary">Click to Upload</span></p>
+                        <p class="mb-2">Drag & Drop Excel File Here</p>
+                        <p class="text-muted">or</p>
+                        <button type="button" class="btn btn-outline-primary">Choose a file</button>
                         <input type="file" id="file-input" name="excelFile" accept=".xls,.xlsx" hidden>
                     </div>
-                    <div class="text-center mt-3">
-                        <button type="submit" class="btn btn-primary btn-lg">Upload</button>
+                    <p class="text-center text-muted mt-3">Maximum file size 500MB. <a href="#">See more requirements</a></p>
+
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                        <button type="button" class="btn btn-outline-secondary btn-lg ms-3">Cancel</button>
                     </div>
                 </form>
+
+                <% if (message) { %>
+                    <div class="alert <%= message.includes('successfully') ? 'alert-success' : 'alert-danger' %> mt-4 text-center">
+                        <%= message %>
+                    </div>
+                <% } %>
+
+                <% if (fileName) { %>
+                    <div class="mt-4 text-center">
+                        <p><strong>Uploaded File:</strong> <%= fileName %></p>
+                    </div>
+                <% } %>
 
                 <% if (excelData) { %>
                     <h2 class="text-center mt-4">Extracted Email Addresses</h2>
@@ -47,36 +66,9 @@
         </div>
     </div>
 
-    <script>
-        const dropArea = document.getElementById('drop-area');
-        const fileInput = document.getElementById('file-input');
-
-        // Prevent default drag behaviors
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(event => {
-            dropArea.addEventListener(event, preventDefaults, false);
-        });
-
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
-        // Highlight drop area when file is dragged over
-        dropArea.addEventListener('dragover', () => dropArea.classList.add('border-primary'));
-        dropArea.addEventListener('dragleave', () => dropArea.classList.remove('border-primary'));
-
-        // Handle dropped files
-        dropArea.addEventListener('drop', (e) => {
-            dropArea.classList.remove('border-primary');
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                fileInput.files = files;
-                document.getElementById('upload-form').submit();
-            }
-        });
-
-        // Open file dialog when drop area is clicked
-        dropArea.addEventListener('click', () => fileInput.click());
-    </script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="/js/script.js"></script>
 </body>
 </html>
