@@ -32,6 +32,8 @@ exports.uploadExcel = (req, res) => {
 };
 
 // Function to send emails
+
+
 function sendEmails(emails) {
     emails.forEach(email => {
         const mailOptions = {
