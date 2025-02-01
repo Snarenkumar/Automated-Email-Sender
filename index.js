@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const xlsx = require('xlsx');
 const path = require('path');
-
+var nodemailer = require('nodemailer');
 const app = express();
 
 // Set EJS as the template engine
