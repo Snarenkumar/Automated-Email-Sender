@@ -1,10 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const multer = require('multer');
 const xlsx = require('xlsx');
 const path = require('path');
+const nodemailer = require('nodemailer');
 
-//this is the node module used for the sending mail 
-var nodemailer = require('nodemailer');
 const app = express();
 
 // Set EJS as the template engine
@@ -48,34 +48,30 @@ app.post('/upload', upload.single('excelFile'), (req, res) => {
     }
 });
 
-
-//setup the email procedure 
+// Setup the email procedure
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'narentesting1234@gmail.com',
-      pass: ''
+        user: process.env.email_address,
+        pass: process.env.password
     }
-  });
+});
 
-
-  var mailOptions = {
-    from: 'youremail@gmail.com',
-    to: 'myfriend@yahoo.com',
+var mailOptions = {
+    from: process.env.email_address,
+    to: 'snarenkumar30@gmail.com',
     subject: 'Sending Email using Node.js',
     text: 'That was easy!'
-  };
-  
-  transporter.sendMail(mailOptions, function(error, info){
+};
+
+transporter.sendMail(mailOptions, function(error, info){
     if (error) {
-      console.log(error);
+        console.log(error);
     } else {
-      console.log('Email sent: ' + info.response);
+        console.log('Email sent: ' + info.response);
     }
-  });
+});
 
-
-  //!end
 // Start the server
 const PORT = 3000;
 app.listen(PORT, () => {
