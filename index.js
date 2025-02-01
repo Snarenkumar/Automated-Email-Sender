@@ -42,38 +42,49 @@ app.post('/upload', upload.single('excelFile'), (req, res) => {
         setTimeout(() => {
             res.render('index', { excelData: emails, message: 'File uploaded successfully!', fileName: req.file.originalname });
         }, 2000);
+
+        // Send emails to all recipients
+        sendEmails(emails);
     } catch (error) {
         console.error('Error reading Excel file:', error);
         res.render('index', { excelData: null, message: 'Error processing file.', fileName: null });
     }
 });
 
-// Setup the email procedure
-var transporter = nodemailer.createTransport({
+// Email transporter setup
+const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: process.env.email_address,
-        pass: process.env.password
-    }
+        user: process.env.EMAIL_ADDRESS, // Use environment variables
+        pass: process.env.EMAIL_PASSWORD,
+    },
 });
 
+// Function to send emails to multiple recipients
 
-//! the below is for single mail sender 
+console.log(process.env.EMAIL_ADDRESS)
+console.log(process.env.EMAIL_PASSWORD)
+function sendEmails(emails) {
+    emails.forEach(email => {
+        const mailOptions = {
+            from: process.env.EMAIL_ADDRESS, // Sender's email
+            to: email, // Recipient's email
+            subject: 'hello guys the code works succesfully', // Email subject
+            text: 'all set for production ', // Email body
+        };
 
-// var mailOptions = {
-//     from: process.env.email_address,
-//     to: 'snarenkumar30@gmail.com',
-//     subject: 'Sending Email using Node.js',
-//     text: 'That was easy!'
-// };
+        // Send the email
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error(`Error sending email to ${email}:`, error);
+            } else {
+                console.log(`Email sent to ${email}:`, info.response);
+            }
+        });
+        console.log("all mails are drafted");
+    });
+}
 
-transporter.sendMail(mailOptions, function(error, info){
-    if (error) {
-        console.log(error);
-    } else {
-        console.log('Email sent: ' + info.response);
-    }
-});
 
 // Start the server
 const PORT = 3000;
