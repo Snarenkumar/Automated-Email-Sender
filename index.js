@@ -85,6 +85,8 @@ function sendEmails(emails) {
     });
 }
 
+//!backend is done 
+
 
 // Start the server
 const PORT = 3000;
