@@ -1,5 +1,5 @@
 textarea {
-    width: 50%;
+    width: 100vh;
     height: 150px;
     padding: 12px 20px;
     box-sizing: border-box;
@@ -8,4 +8,33 @@ textarea {
     background-color: #f8f8f8;
     font-size: 16px;
     resize: none;
+  }
+
+
+.btn-input {
+    margin-left: 30vh;
+    margin-top: 50px;
+}
+.btn-input{
+     padding:  10px 15px 10px 15px;
+     color: black;
+     background-color: white;
+     border: 0px
+
+}
+ 
+
+
+
+  body {
+    background-color: blue;
+    color: white;
+    
+  }
+  .textarea {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    
   }
