@@ -16,6 +16,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', uploadRoutes);
 
 app.use('/json',uploadRoutes)
+
+app.use('/jsonresponse',uploadRoutes)
 // Start the server
 const PORT = 3000;
 app.listen(PORT, () => {

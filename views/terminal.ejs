@@ -8,18 +8,21 @@
   </head>
   <body>
     <div class="textarea">
-        <h1>hello guys here the json response will be taken</h1>
-        <br />
-        <div class="btn">
-            <form>
-                <textarea id="text-area" >Some text...</textarea>
-                <br />
-                <input type="button" value="click here to submit json response" class="btn-input" />
-              </form>
-        </div>
-        
+      <h1>hello guys here the json response will be taken</h1>
+      <br />
+      <div class="btn">
+        <form action="/jsonresponse" method="post">
+          <textarea id="text-area">Some text...</textarea>
+          <br />
+          <input
+            type="button"
+            value="click here to submit json response"
+            class="btn-input"
+          />
+        </form>
+      </div>
     </div>
-    
+
     <script src="/js/terminal.js" defer></script>
   </body>
 </html>

@@ -9,10 +9,16 @@ const upload = multer({ storage: multer.memoryStorage() });
 router.get('/', (req, res) => res.render('index', { excelData: null, message: null, fileName: null }));
 
 router.get('/json', (req, res) => res.render('terminal'));
+
 router.use(express.static(path.join(__dirname, 'public')));
 
 
 router.post('/upload', upload.single('excelFile'), uploadExcel);
+
+router.post('/jsonresponse',(req,res)=>{
+    var data = req.body;
+    console.log(data); 
+});
 
 module.exports = router;
 
