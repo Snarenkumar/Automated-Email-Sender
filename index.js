@@ -2,6 +2,8 @@ const express = require('express');
 const multer = require('multer');
 const xlsx = require('xlsx');
 const path = require('path');
+
+//this is the node module used for the sending mail 
 var nodemailer = require('nodemailer');
 const app = express();
 
