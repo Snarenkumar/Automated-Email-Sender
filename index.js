@@ -57,12 +57,15 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-var mailOptions = {
-    from: process.env.email_address,
-    to: 'snarenkumar30@gmail.com',
-    subject: 'Sending Email using Node.js',
-    text: 'That was easy!'
-};
+
+//! the below is for single mail sender 
+
+// var mailOptions = {
+//     from: process.env.email_address,
+//     to: 'snarenkumar30@gmail.com',
+//     subject: 'Sending Email using Node.js',
+//     text: 'That was easy!'
+// };
 
 transporter.sendMail(mailOptions, function(error, info){
     if (error) {
