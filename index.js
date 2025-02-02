@@ -12,6 +12,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(express.json()); // Ensure this is present
+app.use(express.urlencoded({ extended: true }));
+
+app.use((req, res, next) => {
+    console.log("RAW BODY CHECK:", req.headers["content-type"], req.body);
+    next();
+});
+
+
 // Routes
 app.use('/', uploadRoutes);
 
