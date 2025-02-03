@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 
-// Routes
+// Routes to uplaod the json data
 app.use('/', uploadRoutes);
 
 app.use('/json',uploadRoutes)
