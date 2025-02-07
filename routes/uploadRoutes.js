@@ -21,16 +21,5 @@ router.post('/upload', upload.single('excelFile'), uploadExcel);
 
 
 
-router.post("/jsonresponse", (req, res) => {
-    try {
-        let data = req.body.message;
-        console.log("Received data:", data);
-
-        res.json({ success: true, redirectTo: "/" }); // Send redirect path in JSON
-    } catch (error) {
-        console.error("Error processing JSON:", error);
-        res.status(400).json({ error: "Invalid JSON format" });
-    }
-});
 
 module.exports = router;
