@@ -23,7 +23,40 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/', uploadRoutes);
 app.use('/json', uploadRoutes);
-app.use('/jsonresponse', uploadRoutes);
+
+
+
+app.post("/submit", (req, res) => {
+    try {
+      // Parse the JSON input from the textarea
+      let userInput = JSON.parse(req.body.userInput);
+  
+      // If the parsed input is not an array, check if it's an object with a "message" key
+      if (!Array.isArray(userInput)) {
+        if (userInput.message && Array.isArray(userInput.message)) {
+          userInput = userInput.message;
+        } else {
+          throw new Error("Invalid JSON format. Expected an array or an object with a 'message' key containing an array.");
+        }
+      }
+  
+      // Now userInput is guaranteed to be an array; extract emails
+      extractedEmails = userInput.map(user => user.Email).filter(Boolean);
+  
+      console.log("Extracted Emails:", extractedEmails);
+  
+      res.redirect("/homepage");
+    } catch (error) {
+      console.error("Invalid JSON:", error);
+      res.send("Invalid JSON format. Please enter valid JSON.");
+    }
+  });
+  
+  app.get("/homepage", (req, res) => {
+    res.render("homepage", { emails: extractedEmails });
+  });
+  
+
 
 // Start the server
 const PORT = 3000;
