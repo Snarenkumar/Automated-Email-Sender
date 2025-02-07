@@ -22,22 +22,7 @@ router.use(express.static(path.join(__dirname, 'public')));
 
 router.post('/upload', upload.single('excelFile'), uploadExcel);
 
-router.post("/jsonresponse", (req, res) => {
-    try {
-        let data = req.body.message;
-        
-        // Ensure data is parsed properly
-        if (typeof data === "string") {
-            data = JSON.parse(data);
-        }
-        
-        console.log(data); // Check the structure
-        
-        res.json({ success: true, data });
-    } catch (error) {
-        console.error("Error parsing JSON:", error);
-        res.status(400).json({ error: "Invalid JSON format" });
-    }
-});
+
+
 
 module.exports = router;

@@ -40,7 +40,7 @@ function sendEmails(emails) {
             from: process.env.EMAIL_ADDRESS,
             to: email,
             subject: 'Hello guys, the code works successfully',
-            text: 'All set for production',
+            text: 'sending you a final testing email ',
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
