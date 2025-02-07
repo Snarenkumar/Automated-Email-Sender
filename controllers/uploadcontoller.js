@@ -2,13 +2,9 @@ const multer = require('multer');
 const xlsx = require('xlsx');
 const transporter = require('../config/mailConfig');
 
-
-
-
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-// Handle file upload and processing
 exports.uploadExcel = (req, res) => {
     if (!req.file) {
         return res.render('index', { excelData: null, message: 'No file uploaded.', fileName: null });
@@ -18,9 +14,11 @@ exports.uploadExcel = (req, res) => {
         const workbook = xlsx.read(req.file.buffer, { type: 'buffer' });
         const sheetName = workbook.SheetNames[0];
         const sheetData = xlsx.utils.sheet_to_json(workbook.Sheets[sheetName]);
+        
         sheetData.forEach(element => {
            console.log(element);
         });
+
         const emails = sheetData.map(row => row.Email);
 
         setTimeout(() => {
@@ -35,8 +33,6 @@ exports.uploadExcel = (req, res) => {
 };
 
 // Function to send emails
-
-
 function sendEmails(emails) {
     emails.forEach(email => {
         const mailOptions = {
@@ -57,3 +53,6 @@ function sendEmails(emails) {
 
     console.log("All mails are drafted");
 }
+
+// Export sendEmails function
+exports.sendEmails = sendEmails;
