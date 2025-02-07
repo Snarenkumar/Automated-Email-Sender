@@ -10,9 +10,6 @@ const upload = multer({ storage: multer.memoryStorage() });
 router.use(express.json());
 router.use(express.urlencoded({ extended: true })); // Parses form-encoded body
 
-// Middleware to parse URL-encoded request bodies
-router.use(express.urlencoded({ extended: true }));
-
 // Routes
 router.get('/', (req, res) => res.render('index', { excelData: null, message: null, fileName: null }));
 
@@ -24,5 +21,17 @@ router.post('/upload', upload.single('excelFile'), uploadExcel);
 
 
 
+router.post("/jsonresponse", (req, res) => {
+    try {
+        let data = req.body.message;
+        console.log("Received data:", data);
+
+        // Send success response with redirect instruction
+        res.json({ success: true, redirect: "/" });
+    } catch (error) {
+        console.error("Error processing JSON:", error);
+        res.status(400).json({ error: "Invalid JSON format" });
+    }
+});
 
 module.exports = router;

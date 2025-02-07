@@ -1,6 +1,32 @@
 const textarea = document.getElementById('text-area');
 
 
+document.getElementById("jsonForm").addEventListener("submit", async function (event) {
+    event.preventDefault(); // Prevent default form submission
+
+    let textAreaValue = document.getElementById("text-area").value;
+
+    try {
+        let response = await fetch("/jsonresponse", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ message: JSON.parse(textAreaValue) }), // Parse input JSON
+        });
+
+        let result = await response.json();
+        
+        if (result.success) {
+            // Log emails in console
+            window.location.href = result.redirect; // Redirect to homepage
+        } else {
+            console.error("Error processing JSON:", result.error);
+        }
+    } catch (error) {
+        console.error("Error sending JSON:", error);
+    }
+});
 
 textarea.addEventListener('focus', function() {
     // Clear the textarea content when it gains focus
