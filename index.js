@@ -25,38 +25,32 @@ app.use('/', uploadRoutes);
 app.use('/json', uploadRoutes);
 
 
-
+let extractedEmails = [];
 app.post("/submit", (req, res) => {
     try {
-      // Parse the JSON input from the textarea
-      let userInput = JSON.parse(req.body.userInput);
-  
-      // If the parsed input is not an array, check if it's an object with a "message" key
-      if (!Array.isArray(userInput)) {
-        if (userInput.message && Array.isArray(userInput.message)) {
-          userInput = userInput.message;
-        } else {
-          throw new Error("Invalid JSON format. Expected an array or an object with a 'message' key containing an array.");
-        }
-      }
-  
-      // Now userInput is guaranteed to be an array; extract emails
-      extractedEmails = userInput.map(user => user.Email).filter(Boolean);
-  
-      console.log("Extracted Emails:", extractedEmails);
-  
-      res.redirect("/homepage");
-    } catch (error) {
-      console.error("Invalid JSON:", error);
-      res.send("Invalid JSON format. Please enter valid JSON.");
-    }
-  });
-  
-  app.get("/homepage", (req, res) => {
-    res.render("homepage", { emails: extractedEmails });
-  });
-  
+        let userInput = JSON.parse(req.body.userInput);
 
+        if (!Array.isArray(userInput)) {
+            throw new Error("Invalid JSON format. Expected an array.");
+        }
+
+        extractedEmails = userInput.map(user => user.Email).filter(Boolean);
+        console.log("Extracted Emails:", extractedEmails);
+
+        // Instead of res.redirect(), return a JSON response with the redirect URL
+        res.json({ redirectUrl: "/homepage" });
+    } catch (error) {
+        console.error("Invalid JSON:", error);
+        res.status(400).json({ error: "Invalid JSON format." });
+    }
+});
+
+
+
+
+app.get("/homepage", (req, res) => {
+    res.json({ emails: extractedEmails });
+});
 
 // Start the server
 const PORT = 3000;

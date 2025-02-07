@@ -1,44 +1,48 @@
-const textarea = document.getElementById('text-area');
-
-
-textarea.addEventListener('focus', function() {
-    // Clear the textarea content when it gains focus
-    if (this.value === 'Some text...') {
-        this.value = '';
-    }
-});
-
-textarea.addEventListener('blur', function() {
-    // Restore placeholder text if the textarea is empty
-    if (this.value === '') {
-        this.value = 'Some text...';
-    }
-});
-
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.querySelector("form");
+    const form = document.getElementById("jsonForm");
     const textarea = document.getElementById("text-area");
 
+    // Clear default text on focus
+    textarea.addEventListener("focus", function() {
+        if (this.value.trim() === "Some text...") {
+            this.value = "";
+        }
+    });
+
+    // Restore default text if empty on blur
+    textarea.addEventListener("blur", function() {
+        if (this.value.trim() === "") {
+            this.value = "Some text...";
+        }
+    });
+
+    // Handle form submission with AJAX
     form.addEventListener("submit", async (event) => {
-        event.preventDefault(); // Prevent the default form submission
+        event.preventDefault(); // Prevent traditional form submission
 
-        const data = { message: textarea.value.trim() }; // Get textarea input
-
-        console.log("Sending Data:", data); // Debugging
+        const inputText = textarea.value.trim();
+        if (!inputText) {
+            alert("Please enter some JSON data before submitting.");
+            return;
+        }
 
         try {
-            const response = await fetch("/jsonresponse", {
+            const response = await fetch("/submit", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json" // Explicitly set JSON
-                },
-                body: JSON.stringify(data) // Convert data to JSON format
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userInput: inputText })
             });
 
-            const result = await response.text();
+            const result = await response.json(); // Expect JSON response
             console.log("Server Response:", result);
+
+            // Redirect if the response contains a redirect URL
+            if (result.redirectUrl) {
+                window.location.href = result.redirectUrl;
+            }
         } catch (error) {
             console.error("Error:", error);
+            alert("Failed to send request.");
         }
     });
 });
