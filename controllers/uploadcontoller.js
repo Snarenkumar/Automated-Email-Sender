@@ -1,7 +1,7 @@
 const multer = require('multer');
 const xlsx = require('xlsx');
 const transporter = require('../config/mailConfig');
-// !!here contoller is made  upload
+// !!here  is made  upload
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
