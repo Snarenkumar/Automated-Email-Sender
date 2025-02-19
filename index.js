@@ -8,8 +8,8 @@ const passport =require('passport');
 const app = express();
 
 app.use(cors());
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -40,9 +40,6 @@ app.post("/submit", (req, res) => {
     }
 });
 
-app.get("/homepage", (req, res) => {
-    res.json({ emails: extractedEmails });
-});
 
 const PORT = 3000;
 app.listen(PORT, () => {
